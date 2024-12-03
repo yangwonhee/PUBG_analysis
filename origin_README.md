@@ -16,8 +16,8 @@ PUBG (PlayerUnknown's Battlegrounds) data analysis
 |제목|내용|설명|
 |------|---|---|
 |
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%202.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%204.png)
-|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%201.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%203.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%205.png)
+![image.png](img_files/image.png)|![image.png](img_files/image%202.png)|![image.png](img_files/image%204.png)
+|![image.png](img_files/image%201.png)|![image.png](img_files/image%203.png)|![image.png](img_files/image%205.png)
 
 - 위의 그림은 30판의 게임으로 plotting 하였음.
 - 배틀그라운드를 플레이하는 사람들은 크게 3가지로 나뉜다고 가정.
@@ -27,7 +27,7 @@ PUBG (PlayerUnknown's Battlegrounds) data analysis
 - 배틀그라운드 맵(에란겔/미라마)과 스쿼드(솔로/듀오/스쿼드)에 따라 플레이 스타일과 교전 지역이 달라질 것임을 가정하여 각각 분석.
 - ‘player_dist_drive’의 여부로 보았을 때 생존 확률이 다른 것을 알 수 있음.
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%206.png)
+![image.png](img_files/image%206.png)
 
 ### 클러스터링 (미라마 - 솔로)
 
@@ -40,19 +40,19 @@ PUBG (PlayerUnknown's Battlegrounds) data analysis
 - cluster 2: 존버 플레이어
 - 클러스터 별 생존 분석이 잘 되었다고 판단.
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%207.png)
+![image.png](img_files/image%207.png)
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%208.png)
+![image.png](img_files/image%208.png)
 
 ## 모델 성능 평가 (Score)
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%209.png)
+![image.png](img_files/image%209.png)
 
 ## 최종 모델 (Final Model)
 
 Decision Tree, Random Forest가 높은 성능을 보이나, 처리 속도가 빠른 Decision Tree로 최종 모델 결정.
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%2010.png)
+![image.png](img_files/image%2010.png)
 
 ```python
 # 예측 모델을 위한 데이터 준비
