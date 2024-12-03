@@ -12,7 +12,7 @@ PUBG(PlayerUnknown's Battlegrounds) 데이터 분석 프로젝트
 
 ### 📊 데이터
 - **사용 기간**: 2017~2018년 PUBG 매치 데이터
-- **분석 범위**: 주요 맵인 **에란겔(Erangel)**과 **미라마(Miramar)**
+- **분석 범위**: 주요 맵인 **에란겔(Erangel)** 과 **미라마(Miramar)**
 - **주요 변수**:  
   - 이동 거리(`player_dist_total`, `player_dist_drive`)  
   - 데미지(`player_dmg`)  
@@ -47,7 +47,7 @@ PUBG(PlayerUnknown's Battlegrounds) 데이터 분석 프로젝트
 
 ### 2️⃣ 생존 확률 분석
 - 각 클러스터의 생존 확률을 비교하여 유형별 전략적 우위를 분석.
-- **`player_dist_drive`(차량 이동 거리)**가 생존 확률에 큰 영향을 미치는 것으로 나타남.  
+- **`player_dist_drive`(차량 이동 거리)** 가 생존 확률에 큰 영향을 미치는 것으로 나타남.  
   이는 특정 상황에서 차량 이동 전략이 중요하다는 점을 시사합니다.
 
 ---
