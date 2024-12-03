@@ -1,61 +1,124 @@
-# PUBG_analysis
-PUBG (PlayerUnknown's Battlegrounds) data analysis
+# PUBG Analysis
 
+PUBG(PlayerUnknown's Battlegrounds) 데이터 분석 프로젝트
+
+---
 
 ## 프로젝트 개요
 
-- 프로젝트 목표: 배틀그라운드 게임 순위를 높이는 법
-- 맵과 클러스터 별로, [어느 지점, 어떤 무기]로 첫 킬을 낼 시 우승 확률이 높은지 확인.
-- 프로젝트 전제 조건
-- 데이터 사용 범위: 2017-2018년 동안의 배틀그라운드 매치 데이터를 사용.
-- 상황에 따른 분류: 각 맵의 특성에 따라 스쿼드 인원별 전략이 달라지는 것을 고려해 분석을 진행.
-- 특징 정의: 맵, 이동 거리, 플레이 시간, 파티 크기, 플레이어 데미지 등의 다양한 요인을 기반.
-- 범위 제한: 주요 맵인 에란겔과 미라마를 대상으로 한정하여 분석.
+### 🎯 목표
+배틀그라운드에서 **게임 순위를 높이는 전략**을 도출하는 것이 이 프로젝트의 핵심입니다.  
+특정 맵과 클러스터에서 얼마만큼의 **이동거리와 데미지**를 내야 우승 확률이 높은지를 분석합니다.
 
-## 1) 모델 기본 설계
-|제목|내용|설명|
-|------|---|---|
-|
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%202.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%204.png)
-|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%201.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%203.png)|![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%205.png)
+### 📊 데이터
+- **사용 기간**: 2017~2018년 PUBG 매치 데이터
+- **분석 범위**: 주요 맵인 **에란겔(Erangel)**과 **미라마(Miramar)**
+- **주요 변수**:  
+  - 이동 거리(`player_dist_total`, `player_dist_drive`)  
+  - 데미지(`player_dmg`)  
+  - 파티 크기 및 스쿼드 유형(솔로/듀오/스쿼드)  
+  - 생존 시간(`player_survive_time`)  
+  - 킬 수(`player_kills`)  
 
-- 위의 그림은 30판의 게임으로 plotting 하였음.
-- 배틀그라운드를 플레이하는 사람들은 크게 3가지로 나뉜다고 가정.
-- 다수의 사람들과의 교전을 즐기는 플레이어.
-- 교전을 즐기지 않는 (생존을 우선시하는) 일명 존버 플레이어.
-- 적당히 파밍하며 교전하는 일반적인 플레이어.
-- 배틀그라운드 맵(에란겔/미라마)과 스쿼드(솔로/듀오/스쿼드)에 따라 플레이 스타일과 교전 지역이 달라질 것임을 가정하여 각각 분석.
-- ‘player_dist_drive’의 여부로 보았을 때 생존 확률이 다른 것을 알 수 있음.
+### 🧩 전제 조건
+- 플레이어는 **3가지 유형**으로 나뉜다고 가정:
+  1. **교전 선호형**: 적극적으로 교전을 즐기는 플레이어
+  2. **생존 우선형(존버)**: 교전을 최소화하고 생존을 우선하는 플레이어
+  3. **균형형**: 적당히 파밍하고 교전을 선택적으로 즐기는 일반적인 플레이어
+- **맵별**로 교전 지역 및 플레이 스타일이 다르다는 점을 고려하여 분석.
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%206.png)
+---
 
-### 클러스터링 (미라마 - 솔로)
+## 분석 내용
 
-- 'player_dist_total', 'player_dmg', 'drive_type', 'player_kills’
-- 4개의 columns로 clustering 진행.
-- StandardScaler(), KMeans()를 통해 총 3개의 클러스터로 분류.
-- violin plot을 확인해보았을 때, 아래와 같이 판단됨.
-- cluster 0:  일반적 플레이어
-- cluster 1: 급진적 플레이어
-- cluster 2: 존버 플레이어
-- 클러스터 별 생존 분석이 잘 되었다고 판단.
+### 1️⃣ 클러스터링을 통한 플레이어 유형 분류
+- **사용 변수**:
+  - `player_dist_total` (총 이동 거리)
+  - `player_dmg` (가한 데미지)
+  - `drive_type` (차량 이동 여부)
+  - `player_kills` (킬 수)
+- **방법**:
+  - 데이터 표준화: `StandardScaler()`
+  - 클러스터링: `KMeans()`로 3개의 클러스터로 분류
+- **결과**:
+  - **Cluster 0**: 일반적 플레이어
+  - **Cluster 1**: 교전 선호형 플레이어
+  - **Cluster 2**: 생존 우선형 플레이어 (존버)
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%207.png)
+### 2️⃣ 생존 확률 분석
+- 각 클러스터의 생존 확률을 비교하여 유형별 전략적 우위를 분석.
+- **`player_dist_drive`(차량 이동 거리)**가 생존 확률에 큰 영향을 미치는 것으로 나타남.  
+  이는 특정 상황에서 차량 이동 전략이 중요하다는 점을 시사합니다.
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%208.png)
+---
 
-## 모델 성능 평가 (Score)
+## 모델링
 
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%209.png)
+### 🔍 사용 모델
+- 다양한 머신러닝 모델을 활용하여 생존 확률 예측:
+  - **Decision Tree**
+  - **Random Forest**
+  - **Logistic Regression**
+  - **Gradient Boosting**
 
-## 최종 모델 (Final Model)
+### 성능 평가
+- **Random Forest**와 **Decision Tree**가 높은 정확도를 보였으나,  
+  **속도**를 고려하여 **Decision Tree**를 최종 모델로 채택.
 
-Decision Tree, Random Forest가 높은 성능을 보이나, 처리 속도가 빠른 Decision Tree로 최종 모델 결정.
-
-![image.png](PUBG%20project%20128d87813c44803bbf7bf4054723fe2d/image%2010.png)
+### 최종 모델 정의
+- 주요 변수:
+  - `player_dist_total`, `player_dmg` (이동 거리와 데미지)
+  - 각 클러스터 원-핫 인코딩 (`cluster_0`, `cluster_1`, `cluster_2`)
+- 타겟 변수:
+  - **상위 5위 이내 진입 여부** (이진 분류)
 
 ```python
-# 예측 모델을 위한 데이터 준비
+# 예측 모델 데이터 준비
 X = sample_df[['player_dist_total', 'player_dmg', 'cluster_0', 'cluster_1', 'cluster_2']]
-y = (sample_df['team_placement'] <= 5).astype(int)  # 상위 5위 이내인지 여부
+y = (sample_df['team_placement'] <= 5).astype(int)  # 상위 5위 여부
 ```
+
+---
+
+## 결론 및 기대 효과
+
+1. **유형별 플레이 전략**:
+   - 유형에 따라 최적의 생존 전략 및 우승 확률을 높이는 방법 제안.
+   - 예: 차량 활용, 특정 지역 우선 파밍 등.
+
+2. **맵별 최적화 전략**:
+   - 에란겔과 미라마의 특성에 맞춘 데이터 기반 플레이 가이드 제공.
+
+3. **게임 데이터 활용 가능성**:
+   - e스포츠 전략 분석, 신규 사용자 유입을 위한 데이터 기반 인사이트 제공.
+
+---
+
+## 프로젝트 구조
+
+```plaintext
+PUBG_analysis/
+├── data/                # 원본 및 전처리된 데이터
+├── notebooks/           # 분석 Jupyter 노트북
+├── models/              # 추가 예정: 훈련된 모델 저장
+├── results/             # 추가 예정: 결과 데이터 및 시각화 자료
+├── src/                 # 추가 예정: 분석 및 모델 코드
+├── origin_README.md     # 기존 설명 자료 (시각화 포함)
+└── README.md            # 프로젝트 설명
+```
+
+---
+
+## 주요 기술 스택
+- **Python**: 데이터 분석 및 모델링
+- **Pandas, NumPy**: 데이터 처리
+- **Scikit-learn**: 머신러닝 모델링 및 평가
+- **Matplotlib, Seaborn**: 데이터 시각화
+
+---
+
+## 참고 자료
+- 데이터 출처: Kaggle
+- 분석 환경: Python 3.9, Jupyter Notebook
+
+---
