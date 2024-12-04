@@ -1,6 +1,6 @@
 # PUBG Analysis
-
-PUBG(PlayerUnknown's Battlegrounds) 데이터 분석 프로젝트
+### 🔗[기존 README 파일 클릭 시 이동](./origin_README.md)
+PUBG(PlayerUnknown's Battlegrounds) 데이터 분석 프로젝트 (수정 진행 중 입니다.)
 
 ---
 
