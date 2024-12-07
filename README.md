@@ -98,13 +98,27 @@ y = (sample_df['team_placement'] <= 5).astype(int)  # 상위 5위 여부
 
 ```plaintext
 PUBG_analysis/
-├── data/                # 원본 및 전처리된 데이터
-├── notebooks/           # 분석 Jupyter 노트북
-├── models/              # 추가 예정: 훈련된 모델 저장
-├── results/             # 추가 예정: 결과 데이터 및 시각화 자료
-├── src/                 # 추가 예정: 분석 및 모델 코드
-├── origin_README.md     # 기존 설명 자료 (시각화 포함)
-└── README.md            # 프로젝트 설명
+├── data/                           # 전처리된 데이터 (원본 데이터 용량 이슈)
+├── notebooks/                      # 분석 Jupyter 노트북
+├── models/                         # 추가 예정: 훈련된 모델 저장
+├── results/                        # 추가 예정: 결과 데이터 및 시각화 자료
+├── src/                            # 수정 중..
+│   ├── clustering/                 
+│   │     └── kmeans.py             # k-means로 클러스터링
+│   ├── data/
+│   │     ├── download.py           # kaggle dataset download
+│   │     └── preprocess.py         # 전처리 진행
+│   ├── modeling/
+│   │     ├── compare_models.py     
+│   │     ├── evaluate.py            
+│   │     ├── predict.py             
+│   │     └── train.py   
+│   ├── serving/
+│   │     └── api.py  
+│   └── visualization/
+│         └── plot.py  
+├── origin_README.md                # 기존 설명 자료 (시각화 포함)
+└── README.md                       # 프로젝트 설명
 ```
 
 ---
