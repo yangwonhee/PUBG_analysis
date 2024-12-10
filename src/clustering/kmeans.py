@@ -1,17 +1,12 @@
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import os
 import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
-
-
+from sklearn.preprocessing import StandardScaler,OneHotEncoder
 
 def perform_clustering(sample_df, features):
     sample_df['player_dist_total'] = sample_df['player_dist_ride'] + sample_df['player_dist_walk']
-    sample_df['player_dist_total'] = np.log1p(sample_df['player_dist_total'])
+    # sample_df['player_dist_total'] = np.log1p(sample_df['player_dist_total'])
     sample_df['drive_type'] = sample_df['player_dist_ride'].apply(lambda x: 
                                                                       0 if x == 0 else 1)
     sample_df['player_dmg'] = np.log1p(sample_df['player_dmg'])
@@ -23,7 +18,18 @@ def perform_clustering(sample_df, features):
     kmeans_all = KMeans(n_clusters=3, random_state=42)
     sample_df['cluster'] = kmeans_all.fit_predict(all_features)
     
-    print("end-clustering")
+    print("end-clustering and start onehot encoding ...")
+
+    encoder = OneHotEncoder()
+    cluster_encoded = encoder.fit_transform(sample_df[['cluster']]).toarray()
+    cluster_encoded_df = pd.DataFrame(cluster_encoded, columns=[f'cluster_{i}' for i in range(cluster_encoded.shape[1])])
+
+    # 원핫 인코딩 결과를 sample_df에 추가
+    sample_df = sample_df.reset_index(drop=True)
+    sample_df = pd.concat([sample_df, cluster_encoded_df], axis=1)
+
+    print("end onehot encoding")
+
     return sample_df
 
 
