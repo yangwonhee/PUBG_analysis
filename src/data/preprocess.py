@@ -28,7 +28,16 @@ def preprocess_kill_data(kill_data, agg_data):
 
     # 자살 삭제.
     kill_data = kill_data[~(kill_data['killer_name'] == kill_data['victim_name'])]
-    return kill_data
+    agg_data = agg_data[~(agg_data['player_survive_time'] > 2700.0)]
+
+    merged_data = pd.merge(kill_data, agg_data, 
+                       left_on=['match_id', 'killer_name'], 
+                       right_on=['match_id', 'player_name'], 
+                       how='left')
+    dropcol = ['date', 'game_size', 'match_mode', 'player_name']
+    merged_data.drop(columns = dropcol, inplace = True)
+
+    return merged_data
 
 if __name__ == "__main__":
     RAW_DIR = "./data/raw/"
